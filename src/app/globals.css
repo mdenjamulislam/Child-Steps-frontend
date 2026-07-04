@@ -1,5 +1,67 @@
 @import "tailwindcss";
 
+@theme {
+  /* Brand colors */
+  --color-brand-50:  #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-200: #bbf7d0;
+  --color-brand-300: #86efac;
+  --color-brand-400: #4ade80;
+  --color-brand-500: #22c55e;
+  --color-brand-600: #16a34a;
+  --color-brand-700: #15803d;
+  --color-brand-800: #166534;
+  --color-brand-900: #14532d;
+
+  /* Accent colors */
+  --color-accent-50:  #fdf4ff;
+  --color-accent-100: #fae8ff;
+  --color-accent-200: #f5d0fe;
+  --color-accent-300: #f0abfc;
+  --color-accent-400: #e879f9;
+  --color-accent-500: #d946ef;
+  --color-accent-600: #c026d3;
+  --color-accent-700: #a21caf;
+  --color-accent-800: #86198f;
+  --color-accent-900: #701a75;
+
+  /* Fonts */
+  --font-family-sans:    var(--font-inter), system-ui, sans-serif;
+  --font-family-display: var(--font-plus-jakarta), sans-serif;
+
+  /* Border radius */
+  --radius-4xl: 2rem;
+
+  /* Shadows */
+  --shadow-glass:    0 8px 32px 0 rgba(31, 38, 135, 0.12);
+  --shadow-glass-lg: 0 16px 48px 0 rgba(31, 38, 135, 0.18);
+  --shadow-soft:     0 4px 24px rgba(0,0,0,0.06);
+
+  /* Background images */
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-hero:   linear-gradient(135deg, #f0fdf4 0%, #fae8ff 50%, #eff6ff 100%);
+
+  /* Animations */
+  --animate-fade-in:    fadeIn 0.5s ease-in-out;
+  --animate-slide-up:   slideUp 0.4s ease-out;
+  --animate-pulse-soft: pulseSoft 2s ease-in-out infinite;
+
+  @keyframes fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    0%   { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.7; }
+  }
+}
+
 @layer base {
   :root {
     --brand-gradient: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
@@ -57,12 +119,12 @@
     @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
   }
 
-  .badge-physical  { @apply badge bg-blue-100 text-blue-700; }
-  .badge-cognitive { @apply badge bg-purple-100 text-purple-700; }
-  .badge-language  { @apply badge bg-yellow-100 text-yellow-700; }
-  .badge-social    { @apply badge bg-pink-100 text-pink-700; }
-  .badge-emotional { @apply badge bg-orange-100 text-orange-700; }
-  .badge-self-care { @apply badge bg-teal-100 text-teal-700; }
+  .badge-physical  { @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700; }
+  .badge-cognitive { @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700; }
+  .badge-language  { @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700; }
+  .badge-social    { @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-pink-100 text-pink-700; }
+  .badge-emotional { @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700; }
+  .badge-self-care { @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-teal-100 text-teal-700; }
 }
 
 @layer utilities {
