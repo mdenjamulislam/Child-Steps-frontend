@@ -2,9 +2,11 @@
 
 export interface Child {
   id: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   date_of_birth: string;
   gender: "male" | "female" | "other";
+  blood_group?: string;
   parent_id: string;
   avatar_url?: string;
   notes?: string;
