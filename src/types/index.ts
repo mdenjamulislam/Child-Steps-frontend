@@ -1,5 +1,17 @@
 // ── Shared Frontend TypeScript Types ─────────────────────────────────────────
 
+export interface DailyLog {
+  id: string;
+  child_id: string;
+  log_date: string;
+  sleep_hours?: number;
+  diet_details?: string;
+  mood?: string;
+  physical_activity_minutes?: number;
+  notes?: string;
+  created_at: string;
+}
+ 
 export interface Child {
   id: string;
   first_name: string;

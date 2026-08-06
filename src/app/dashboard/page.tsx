@@ -84,15 +84,15 @@ export default function DashboardPage() {
   const calculateAge = (dobString: string) => {
     const dob = new Date(dobString);
     const today = new Date();
-    
+
     let years = today.getFullYear() - dob.getFullYear();
     let months = today.getMonth() - dob.getMonth();
-    
+
     if (months < 0 || (months === 0 && today.getDate() < dob.getDate())) {
       years--;
       months += 12;
     }
-    
+
     if (today.getDate() < dob.getDate()) {
       months--;
       if (months < 0) {
@@ -105,7 +105,7 @@ export default function DashboardPage() {
     } else if (months === 0) {
       return `${years} year${years !== 1 ? 's' : ''}`;
     }
-    
+
     return `${years}y ${months}m`;
   };
 
@@ -122,7 +122,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-screen w-full bg-slate-50 font-sans text-slate-900 dark:bg-slate-950 dark:text-slate-50">
-      
+
       {/* SIDEBAR (Desktop) */}
       <aside className="hidden w-64 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 md:flex">
         <div className="flex h-16 items-center px-6 border-b border-slate-100 dark:border-slate-800">
@@ -131,7 +131,7 @@ export default function DashboardPage() {
           </div>
           <span className="ml-3 text-lg font-bold tracking-tight">Child Steper</span>
         </div>
-        
+
         <nav className="flex-1 space-y-1 p-4">
           <a href="#" className="flex items-center gap-3 rounded-lg bg-indigo-50 px-3 py-2.5 text-sm font-medium text-indigo-700 transition dark:bg-indigo-500/10 dark:text-indigo-400">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
@@ -150,7 +150,7 @@ export default function DashboardPage() {
             Settings
           </a>
         </nav>
-        
+
         <div className="border-t border-slate-100 p-4 dark:border-slate-800">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-white bg-slate-200 shadow-sm dark:border-slate-800 dark:bg-slate-700">
@@ -166,7 +166,7 @@ export default function DashboardPage() {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 overflow-y-auto overflow-x-hidden">
-        
+
         {/* Header */}
         <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 px-8 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80">
           <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Dashboard Overview</h1>
@@ -189,7 +189,7 @@ export default function DashboardPage() {
         </header>
 
         <div className="p-8">
-          
+
           {/* Welcome Banner */}
           <div className="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-500 to-purple-600 p-8 text-white shadow-lg relative">
             <div className="relative z-10 w-full md:w-2/3">
@@ -206,17 +206,17 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Decorative background circle */}
             <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-white/10 blur-3xl mix-blend-overlay"></div>
             <div className="absolute -top-12 right-12 h-32 w-32 rounded-full bg-white/20 blur-2xl mix-blend-overlay"></div>
           </div>
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            
+
             {/* Left Column: Children Profiles & Charts */}
             <div className="lg:col-span-2 space-y-8">
-              
+
               {/* Children Section */}
               <section>
                 <div className="mb-4 flex items-center justify-between">
@@ -245,7 +245,7 @@ export default function DashboardPage() {
                     {children.map((child, index) => {
                       const colors = ['bg-indigo-500', 'bg-emerald-500', 'bg-purple-500', 'bg-amber-500'];
                       const iconColor = colors[index % colors.length];
-                      
+
                       return (
                         <div
                           key={child.id}
@@ -265,7 +265,7 @@ export default function DashboardPage() {
                                 </p>
                               </div>
                             </div>
-                            
+
                             <div className="relative">
                               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
@@ -312,7 +312,7 @@ export default function DashboardPage() {
                         <span className="font-bold text-slate-900 dark:text-white">{prog.percentage}%</span>
                       </div>
                       <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                        <div 
+                        <div
                           className={`h-full rounded-full ${prog.color} transition-all duration-1000 ease-out`}
                           style={{ width: `${prog.percentage}%` }}
                         ></div>
@@ -326,13 +326,13 @@ export default function DashboardPage() {
 
             {/* Right Column: Recent Activity & Reminders */}
             <div className="space-y-8 lg:col-span-1">
-              
+
               <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <div className="mb-6 flex items-center justify-between">
                   <h3 className="text-lg font-bold text-slate-900 dark:text-slate-50">Recent Activity</h3>
                   <button className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">View All</button>
                 </div>
-                
+
                 <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent dark:before:via-slate-800">
                   {DEMO_ACTIVITIES.map((activity, i) => (
                     <div key={activity.id} className="relative flex items-start gap-4">
