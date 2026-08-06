@@ -14,7 +14,13 @@ export default function ChildFormModal({
   onSubmit,
   initialData,
 }: ChildFormModalProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    first_name: string;
+    last_name: string;
+    date_of_birth: string;
+    gender: "male" | "female" | "other";
+    blood_group: string;
+  }>({
     first_name: "",
     last_name: "",
     date_of_birth: "",

@@ -11,7 +11,7 @@ export interface DailyLog {
   notes?: string;
   created_at: string;
 }
- 
+
 export interface Child {
   id: string;
   first_name: string;
@@ -24,28 +24,41 @@ export interface Child {
   notes?: string;
   created_at: string;
   updated_at: string;
-  milestones?: Milestone[];
 }
 
-export interface Milestone {
+export interface GrowthRecord {
   id: string;
   child_id: string;
-  title: string;
-  category: MilestoneCategory;
-  description?: string;
-  is_achieved: boolean;
-  achieved_at?: string;
+  record_date: string;
+  weight_kg: number;
+  height_cm: number;
+  head_circumference_cm?: number | null;
+  bmi: number;
   created_at: string;
-  updated_at: string;
 }
 
 export type MilestoneCategory =
-  | "physical"
-  | "cognitive"
-  | "language"
-  | "social"
-  | "emotional"
-  | "self_care";
+  | "Cognitive"
+  | "Motor Skills"
+  | "Language"
+  | "Social-Emotional";
+
+export type MilestoneStatus = "not-started" | "in-progress" | "achieved";
+
+export interface Milestone {
+  id: string;
+  title: string;
+  description?: string | null;
+  target_age_months: number;
+  category: MilestoneCategory;
+}
+
+export interface ChildMilestoneItem extends Milestone {
+  child_milestone_id?: string | null;
+  status: MilestoneStatus;
+  achieved_date?: string | null;
+  notes?: string | null;
+}
 
 export interface ApiResponse<T> {
   success: boolean;

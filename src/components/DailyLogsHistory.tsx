@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { dailyLogService } from "../services/dailyLogService";
 import type { DailyLog } from "../types";
-import { format, subDays } from "date-fns";
 import { Calendar, Moon, Zap, Coffee } from "lucide-react";
 
 interface DailyLogsHistoryProps {
@@ -12,7 +11,16 @@ interface DailyLogsHistoryProps {
   refreshTrigger?: number; // Pass a number that increments to force refresh
 }
 
-export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onSelectLog, refreshTrigger = 0 }) => {
+const formatDateStr = (d: Date) => d.toISOString().split("T")[0];
+const subDaysDate = (d: Date, days: number) => new Date(d.getTime() - days * 86400000);
+const formatDisplayDate = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({
+  childId,
+  onSelectLog,
+  refreshTrigger = 0,
+}) => {
   const [logs, setLogs] = useState<DailyLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,15 +34,19 @@ export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onS
     setError(null);
     try {
       const today = new Date();
-      const endDateStr = format(today, "yyyy-MM-dd");
-      const startDateStr = format(subDays(today, 7), "yyyy-MM-dd");
+      const endDateStr = formatDateStr(today);
+      const startDateStr = formatDateStr(subDaysDate(today, 7));
 
-      const response = await dailyLogService.getLogsByDateRange(childId, startDateStr, endDateStr);
-      
-      if (response.data?.success && response.data.data) {
-        setLogs(response.data.data);
+      const response = await dailyLogService.getLogsByDateRange(
+        childId,
+        startDateStr,
+        endDateStr
+      );
+
+      if (response.success && response.data) {
+        setLogs(response.data);
       } else {
-        setError("Could not load history.");
+        setError(response.error || "Could not load history.");
       }
     } catch (err: any) {
       console.error("Failed to fetch logs history:", err);
@@ -57,7 +69,7 @@ export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onS
     return (
       <div className="bg-white rounded-xl shadow-sm border border-red-100 p-6 text-center">
         <p className="text-sm text-red-500 mb-2">{error}</p>
-        <button 
+        <button
           onClick={fetchHistory}
           className="text-xs font-medium text-blue-600 hover:text-blue-800"
         >
@@ -66,6 +78,8 @@ export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onS
       </div>
     );
   }
+
+  const todayStr = formatDateStr(new Date());
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -85,8 +99,8 @@ export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onS
         <div className="space-y-3">
           {logs.map((log) => {
             const dateObj = new Date(log.log_date);
-            const isToday = format(new Date(), "yyyy-MM-dd") === log.log_date;
-            
+            const isToday = todayStr === log.log_date;
+
             return (
               <button
                 key={log.id}
@@ -96,7 +110,7 @@ export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onS
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium text-gray-900 text-sm">
-                      {isToday ? "Today" : format(dateObj, "MMM d, yyyy")}
+                      {isToday ? "Today" : formatDisplayDate(dateObj)}
                     </span>
                     {log.mood && (
                       <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 group-hover:bg-white">
@@ -104,7 +118,7 @@ export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onS
                       </span>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-3 text-xs text-gray-500 mt-2">
                     <span className="flex items-center gap-1">
                       <Moon className="w-3.5 h-3.5" />
@@ -122,7 +136,7 @@ export const DailyLogsHistory: React.FC<DailyLogsHistoryProps> = ({ childId, onS
                     )}
                   </div>
                 </div>
-                
+
                 <div className="flex-shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="text-xs font-medium text-blue-600">Edit &rarr;</span>
                 </div>

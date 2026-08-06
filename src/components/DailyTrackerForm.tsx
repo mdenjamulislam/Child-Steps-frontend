@@ -57,8 +57,8 @@ export const DailyTrackerForm: React.FC<DailyTrackerFormProps> = ({ childId, ini
   const fetchLogForDate = async (date: string) => {
     try {
       const response = await dailyLogService.getLogByDate(childId, date);
-      if (response.data?.success && response.data.data) {
-        const data = response.data.data;
+      if (response.success && response.data) {
+        const data = response.data;
         setSleepHours(data.sleep_hours || 0);
         setMood(data.mood || "");
         setActivityMinutes(data.physical_activity_minutes || 0);
@@ -94,17 +94,17 @@ export const DailyTrackerForm: React.FC<DailyTrackerFormProps> = ({ childId, ini
         notes,
       });
 
-      if (response.data?.success && response.data.data) {
+      if (response.success && response.data) {
         setSuccessMsg("Daily log saved successfully!");
         if (onSaveSuccess) {
-          onSaveSuccess(response.data.data);
+          onSaveSuccess(response.data);
         }
         setTimeout(() => setSuccessMsg(null), 3000);
       } else {
-        setError(response.data?.error || "Failed to save daily log");
+        setError(response.error || "Failed to save daily log");
       }
     } catch (err: any) {
-      setError(err.response?.data?.error || "An unexpected error occurred");
+      setError(err.message || "An unexpected error occurred");
     } finally {
       setIsSaving(false);
     }
