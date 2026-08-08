@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import { childService } from "@/services/childService";
 import { growthMilestoneService } from "@/services/growthMilestoneService";
 import type {
@@ -39,6 +41,8 @@ const CATEGORIES: { label: string; value: MilestoneCategory | "All"; icon: React
 ];
 
 export default function MilestonesDashboardPage() {
+  const { token, loading: authLoading } = useAuth();
+  const router = useRouter();
   const [children, setChildren] = useState<Child[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string>("");
   const [milestones, setMilestones] = useState<ChildMilestoneItem[]>([]);
@@ -55,6 +59,13 @@ export default function MilestonesDashboardPage() {
 
   // Fetch children list on mount
   useEffect(() => {
+    if (authLoading) return;
+
+    if (!token) {
+      router.replace("/login");
+      return;
+    }
+
     const fetchChildren = async () => {
       try {
         setLoadingChildren(true);
@@ -70,7 +81,7 @@ export default function MilestonesDashboardPage() {
       }
     };
     fetchChildren();
-  }, []);
+  }, [authLoading, token]);
 
   // Fetch milestones checklist for selected child
   const fetchMilestones = async (childId: string) => {

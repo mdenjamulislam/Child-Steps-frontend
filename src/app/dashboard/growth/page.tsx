@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import { childService } from "@/services/childService";
 import { growthMilestoneService } from "@/services/growthMilestoneService";
 import type { Child, GrowthRecord } from "@/types";
@@ -31,6 +33,8 @@ import {
 } from "lucide-react";
 
 export default function GrowthTrackerPage() {
+  const { token, loading: authLoading } = useAuth();
+  const router = useRouter();
   const [children, setChildren] = useState<Child[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string>("");
   const [records, setRecords] = useState<GrowthRecord[]>([]);
@@ -53,6 +57,13 @@ export default function GrowthTrackerPage() {
 
   // Fetch children list on mount
   useEffect(() => {
+    if (authLoading) return;
+
+    if (!token) {
+      router.replace("/login");
+      return;
+    }
+
     const fetchChildren = async () => {
       try {
         setLoadingChildren(true);
@@ -68,7 +79,7 @@ export default function GrowthTrackerPage() {
       }
     };
     fetchChildren();
-  }, []);
+  }, [authLoading, token]);
 
   // Fetch growth records whenever selected child changes
   const fetchGrowthHistory = async (childId: string) => {
