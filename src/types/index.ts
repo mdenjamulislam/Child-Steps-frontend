@@ -108,3 +108,12 @@ export interface MarkAdministeredPayload {
   administered_by: string;
   notes?: string;
 }
+
+// ── Guidelines / AI Types ───────────────────────────────────────────────
+
+export interface GuidelineResponse {
+  physical_activity: string[];
+  nutrition: string[];
+  cognitive_focus: string[];
+  sleep_recommendations: string[];
+}
