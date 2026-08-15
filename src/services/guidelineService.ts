@@ -1,4 +1,5 @@
 import type { ApiResponse, GuidelineResponse } from "../types";
+import { getStoredToken } from "../lib/apiClient";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -9,7 +10,7 @@ export const guidelineService = {
    * @param forceRefresh Optional flag to bypass the backend cache
    */
   async getGuidelines(childId: string, forceRefresh = false): Promise<ApiResponse<GuidelineResponse>> {
-    const token = localStorage.getItem("token");
+    const token = getStoredToken();
     if (!token) throw new Error("No authentication token found.");
 
     const url = new URL(`${API_URL}/guidelines/${childId}`);
