@@ -109,11 +109,50 @@ export interface MarkAdministeredPayload {
   notes?: string;
 }
 
-// ── Guidelines / AI Types ───────────────────────────────────────────────
+// ── Guidelines / AI Types ─────────────────────────────────────────────────────
 
 export interface GuidelineResponse {
   physical_activity: string[];
   nutrition: string[];
   cognitive_focus: string[];
   sleep_recommendations: string[];
+}
+
+// ── Educational Record Types ────────────────────────────────────────────────────
+
+export interface LoggerProfile {
+  id: string;
+  full_name: string;
+  email: string;
+}
+
+export interface EducationalRecord {
+  id: string;
+  child_id: string;
+  academic_year: string;    // e.g. '2025-2026'
+  grade_level: string;      // e.g. 'Grade 3'
+  subject: string;          // e.g. 'Mathematics'
+  score_or_grade: string;   // e.g. '92%' or 'A'
+  teacher_feedback: string | null;
+  logged_by: string;
+  created_at: string;
+  updated_at: string;
+  logger?: LoggerProfile;
+}
+
+export interface AddEducationRecordPayload {
+  child_id: string;
+  academic_year: string;
+  grade_level: string;
+  subject: string;
+  score_or_grade: string;
+  teacher_feedback?: string;
+}
+
+export interface UpdateEducationRecordPayload {
+  academic_year?: string;
+  grade_level?: string;
+  subject?: string;
+  score_or_grade?: string;
+  teacher_feedback?: string;
 }
