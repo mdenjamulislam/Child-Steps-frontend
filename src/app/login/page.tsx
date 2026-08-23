@@ -97,7 +97,7 @@ export default function LoginPage() {
     const result = await login(payload);
 
     if (result.success) {
-      router.push("/");
+      router.push(result.redirectRoute ?? "/dashboard");
     } else {
       setErrors({ general: result.error ?? "Login failed. Please try again." });
       setIsSubmitting(false);

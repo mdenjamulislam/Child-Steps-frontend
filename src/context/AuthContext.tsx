@@ -102,9 +102,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     rehydrate();
   }, []);
 
+  // ── Helpers ─────────────────────────────────────────────────────────────────
+  const getDashboardRouteForRole = (role: string | null): string => {
+    if (!role) return "/dashboard";
+    if (["parent", "guardian"].includes(role)) return "/dashboard/parent";
+    if (role === "teacher") return "/dashboard/teacher";
+    if (["super_admin", "admin", "manager", "staff"].includes(role)) return "/dashboard/admin";
+    return "/dashboard";
+  };
+
   // ── Login ───────────────────────────────────────────────────────────────────
   const login = useCallback(
-    async (payload: LoginPayload): Promise<{ success: boolean; error?: string }> => {
+    async (payload: LoginPayload): Promise<{ success: boolean; error?: string; redirectRoute?: string }> => {
       dispatch({ type: "SET_LOADING", payload: true });
 
       try {
@@ -124,7 +133,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             },
           });
 
-          return { success: true };
+          return { success: true, redirectRoute: getDashboardRouteForRole(user.role) };
         }
 
         dispatch({ type: "SET_LOADING", payload: false });

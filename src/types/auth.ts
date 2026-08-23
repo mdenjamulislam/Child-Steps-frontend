@@ -48,7 +48,7 @@ export interface AuthState {
 
 /** Functions + state exposed by AuthContext */
 export interface AuthContextType extends AuthState {
-  login: (payload: LoginPayload) => Promise<{ success: boolean; error?: string }>;
+  login: (payload: LoginPayload) => Promise<{ success: boolean; error?: string; redirectRoute?: string }>;
   signup: (payload: SignupPayload) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   hasPermission: (permissionName: string) => boolean;
